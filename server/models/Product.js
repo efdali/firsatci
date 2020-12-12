@@ -10,7 +10,6 @@ const ProductSchema = new Schema({
   selector: {
     type: String,
     required: [true, 'Selector gereklidir.'],
-    unique: [true, 'Selector benzersiz olmalıdır.'],
   },
   createdAt: {
     type: Date,
