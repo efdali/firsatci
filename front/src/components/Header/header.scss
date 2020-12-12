@@ -1,0 +1,28 @@
+header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 40px;
+  margin-bottom: 5em;
+
+  .brand {
+    font-size: 24px;
+    font-weight: 700;
+    color: #fff;
+  }
+
+  .github-link {
+    font-size: 18px;
+    color: var(--font);
+    transition: transform 0.2s;
+    will-change: transform;
+    &:hover {
+      transform: scale(1.2);
+    }
+
+    svg {
+      display: block;
+    }
+  }
+}

@@ -1,0 +1,121 @@
+.form-container {
+  position: relative;
+  &.f-left {
+    float: left;
+  }
+
+  .new-product-form {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    transform: translateY(-500%);
+    transition: transform 0.2s;
+    will-change: transform;
+    z-index: 999;
+    background-color: var(--light);
+    padding: 2.5em 1em;
+    border-radius: 4px;
+
+    &.active {
+      transform: translateY(0%);
+    }
+
+    .close-form {
+      position: absolute;
+      right: 8px;
+      top: 8px;
+      font-size: 1.6em;
+    }
+
+    .url-input {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 25px;
+
+      input {
+        width: 100%;
+      }
+
+      .paste-button {
+        font-size: 20px;
+        margin-left: 15px;
+        svg {
+          display: block;
+        }
+      }
+    }
+
+    .input-group {
+      display: flex;
+      align-items: center;
+      input {
+        flex: 1;
+        margin-right: 25px;
+      }
+    }
+
+    input,
+    button {
+      border-radius: var(--radius);
+      background-color: var(--lightBg);
+      padding: 18px 30px;
+
+      &::placeholder {
+        color: var(--placeholder);
+      }
+    }
+  }
+}
+
+// .new-product-form {
+//   width: 100%;
+//   display: flex;
+
+//   .field {
+//     width: 100%;
+//     margin-bottom: 1em;
+
+//     label {
+//       display: block;
+//       margin-bottom: 0.4em;
+//     }
+
+//     input {
+//       border: 1px solid #ccc;
+//       max-width: 240px;
+//       width: 100%;
+//       height: 30px;
+//       padding-left: 4px;
+//       border-radius: 2px;
+
+//       &::placeholder {
+//         color: #fff;
+//       }
+//     }
+
+//     select {
+//       background-color: transparent;
+//       color: #fff;
+//       border-radius: 4px;
+//       height: 32px;
+//       max-width: 240px;
+//       width: 100%;
+//       border-color: #ccc;
+//     }
+//   }
+
+//   button {
+//     border: 1px solid #ccc;
+//     color: #fff;
+//     padding: 8px;
+//     border-radius: 4px;
+//     margin-left: auto;
+//     flex:1;
+
+//     &:hover {
+//     }
+//   }
+// }

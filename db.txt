@@ -23,5 +23,3 @@ GET / - bütün productlar
 GET /:productId -  bir ürüne atıp olan bütün fiyatlar ve product detay
 
 POST /new - url,selector
-
-POST /:productId - yeni fiyat productId,price
