@@ -7,7 +7,7 @@ function Table({ data }) {
     <div className="data-container">
       {data.length > 0 &&
         data.map((product) => (
-          <div className="data">
+          <div className="data" key={product._id}>
             <div>{product.name}</div>
             <div>n11.com</div>
             <div>

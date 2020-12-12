@@ -5,9 +5,7 @@ function Search({ onSearchChange = () => null }) {
   const [value, setValue] = useState('');
 
   useEffect(() => {
-    if (value) {
-      onSearchChange(value);
-    }
+    onSearchChange(value);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [value]);
 

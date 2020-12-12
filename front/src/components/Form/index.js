@@ -2,8 +2,9 @@ import React, { useCallback, useState } from 'react';
 import Button from '../Button';
 import './form.scss';
 
-function Form() {
+function Form({ setData }) {
   const [isShown, setIsShown] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [url, setUrl] = useState('');
   const [name, setName] = useState('');
   const [selector, setSelector] = useState('');
@@ -14,16 +15,23 @@ function Form() {
       if (!url && !name && !selector) {
         return;
       }
+      setLoading(true);
       fetch('http://localhost:5000/new', {
         method: 'POST',
         body: JSON.stringify({ url, name, selector }),
         headers: { 'Content-Type': 'application/json' },
-      }).then((response) => {
-        if (response.success) {
-          alert('başarılı');
-          console.log(response);
-        }
-      });
+      })
+        .then((res) => res.json())
+        .then((response) => {
+          if (response.success) {
+            setData(response.data.newData);
+            setUrl('');
+            setName('');
+            setSelector('');
+            setIsShown(false);
+          }
+        })
+        .finally(() => setLoading(false));
     },
     [url, name, selector],
   );
@@ -66,7 +74,7 @@ function Form() {
             placeholder="Product Selector"
             disabled
           />
-          <button>Start Following</button>
+          <button disabled={loading}>Start Following</button>
         </div>
       </form>
     </div>
