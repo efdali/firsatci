@@ -48,7 +48,7 @@ const newProduct = asyncWrapper(async (req, res, next) => {
   });
 
   return res.status(200).json({
-    message: 'true',
+    success: true,
     data: {
       newData,
       price,
