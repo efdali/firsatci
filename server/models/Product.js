@@ -2,14 +2,18 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const ProductSchema = new Schema({
+  name: {
+    type: String,
+    required: [true, 'name field is required.'],
+  },
   url: {
     type: String,
-    required: [true, 'URL gereklidir.'],
-    unique: [true, 'URL benzersiz olmalıdır.'],
+    required: [true, 'url field is required.'],
+    unique: true,
   },
   selector: {
     type: String,
-    required: [true, 'Selector gereklidir.'],
+    required: true,
   },
   createdAt: {
     type: Date,
