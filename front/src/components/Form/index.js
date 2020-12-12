@@ -8,16 +8,25 @@ function Form() {
   const [name, setName] = useState('');
   const [selector, setSelector] = useState('');
 
-  const newProductHandler = useCallback(() => {
-    if (!url && !name && !selector) {
-      return;
-    }
-    fetch('/new', { method: 'POST', body: { url, name, selector } }).then((response) => {
-      if (response.success) {
-        alert('başarılı');
+  const newProductHandler = useCallback(
+    (event) => {
+      event.preventDefault();
+      if (!url && !name && !selector) {
+        return;
       }
-    });
-  }, [url, name, selector]);
+      fetch('http://localhost:5000/new', {
+        method: 'POST',
+        body: JSON.stringify({ url, name, selector }),
+        headers: { 'Content-Type': 'application/json' },
+      }).then((response) => {
+        if (response.success) {
+          alert('başarılı');
+          console.log(response);
+        }
+      });
+    },
+    [url, name, selector],
+  );
 
   return (
     <div className={`form-container ${!isShown ? 'f-left' : ''}`}>

@@ -35,10 +35,10 @@ const productDetail = asyncWrapper(async (req, res, next) => {
 const newProduct = asyncWrapper(async (req, res, next) => {
   const info = req.body;
   const newData = await Product.create({
+    name: info.name,
     url: info.url,
     selector: info.selector,
   });
-
   const html = await axios.get(newData.url);
   const $ = cheerio.load(html.data);
   const priceText = $(newData.selector).text().trim();
