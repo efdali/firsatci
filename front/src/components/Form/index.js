@@ -1,6 +1,7 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import Button from '../Button';
 import Loading from '../Loading';
+import SELECTORS from '../../config/selectors';
 import './form.scss';
 
 function Form({ setData }) {
@@ -25,7 +26,7 @@ function Form({ setData }) {
         .then((res) => res.json())
         .then((response) => {
           if (response.success) {
-            setData(response.data.newData);
+            setData({ ...response.data.newData, prices: [{ price: '0' }] });
             setUrl('');
             setName('');
             setSelector('');
@@ -36,6 +37,26 @@ function Form({ setData }) {
     },
     [url, name, selector],
   );
+
+  useEffect(() => {
+    if (url) {
+      try {
+        const _url = new URL(url).hostname.split('.');
+        let selector = '';
+        if (_url.length > 1) {
+          selector = _url[1];
+        } else {
+          selector = _url[0];
+        }
+        const matchedSelector = SELECTORS[selector];
+        if (matchedSelector) {
+          setSelector(SELECTORS[selector]);
+        }
+      } catch (err) {
+        console.log('err düştü');
+      }
+    }
+  }, [url]);
 
   return (
     <div className={`form-container`}>
