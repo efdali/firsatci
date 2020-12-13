@@ -1,8 +1,10 @@
 const asyncWrapper = require('../helpers/asyncWrapper');
 const Product = require('../models/Product');
 const Price = require('../models/Price');
-const cheerio = require('cheerio');
-const axios = require('axios');
+const CustomError = require('../helpers/CustomError');
+const inputHelper = require('../helpers/inputHelpers');
+const getProductId = require('../helpers/getProductId');
+const getProductPrice = require('../helpers/getProductPrice');
 
 const products = asyncWrapper(async (req, res, next) => {
   const data = await Product.aggregate([
@@ -21,7 +23,7 @@ const products = asyncWrapper(async (req, res, next) => {
   ]);
 
   if (!data) {
-    return next(new CustomError('can not get products', 400));
+    return next(new CustomError('Can not get products', 400));
   }
 
   return res.status(200).json({
@@ -34,7 +36,7 @@ const productDetail = asyncWrapper(async (req, res, next) => {
   const product = await Product.findOne({ _id: productId });
 
   if (!product) {
-    return next(new CustomError('Product not found', 404));
+    return next(new CustomError('Page not found!', 404));
   }
 
   const prices = await Price.find({ product: productId }, null, { sort: { createdAt: 1 } });
@@ -46,21 +48,30 @@ const productDetail = asyncWrapper(async (req, res, next) => {
 });
 
 const newProduct = asyncWrapper(async (req, res, next) => {
+  if (!inputHelper.validateInputs(req)) {
+    return next(new CustomError('Check your inputs. All fields are required.', 400));
+  }
+
+  const productId = await getProductId(req, res, next);
+
   const info = req.body;
+  if (info.url.includes('n11.com'))
+    info.url = `https://www.n11.com/component/render/newProductPriceArea?productId=${productId}`;
+
+  const productPrice = await getProductPrice(req, res, next);
+
   const newData = await Product.create({
     name: info.name,
     url: info.url,
     selector: info.selector,
   });
-  const html = await axios.get(newData.url);
-  const $ = cheerio.load(html.data);
-  const priceText = $(newData.selector).text().trim();
+
   const price = await Price.create({
     product: newData._id,
-    price: priceText,
+    price: productPrice,
   });
 
-  return res.status(200).json({
+  res.status(200).json({
     success: true,
     data: {
       newData,
