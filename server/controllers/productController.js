@@ -5,7 +5,20 @@ const cheerio = require('cheerio');
 const axios = require('axios');
 
 const products = asyncWrapper(async (req, res, next) => {
-  const data = await Product.find({});
+  const data = await Product.aggregate([
+    {
+      $lookup: {
+        from: 'prices',
+        as: 'prices',
+        let: { local_id: '$_id' },
+        pipeline: [
+          { $match: { $expr: { $eq: ['$$local_id', '$product'] } } },
+          { $sort: { createdAt: -1 } },
+          { $limit: 1 },
+        ],
+      },
+    },
+  ]);
 
   if (!data) {
     return next(new CustomError('can not get products', 400));
@@ -24,7 +37,7 @@ const productDetail = asyncWrapper(async (req, res, next) => {
     return next(new CustomError('Product not found', 404));
   }
 
-  const prices = await Price.find({ product: productId });
+  const prices = await Price.find({ product: productId }, null, { sort: { createdAt: 1 } });
 
   return res.status(200).json({
     product,

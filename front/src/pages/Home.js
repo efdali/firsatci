@@ -11,9 +11,12 @@ function Home() {
       .then((res) => res.json())
       .then((response) => {
         setData(response.data);
-        setFilteredData(response.data);
       });
   }, []);
+
+  useEffect(() => {
+    setFilteredData(data);
+  }, [data]);
 
   const filterData = useCallback(
     (value) => {

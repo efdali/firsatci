@@ -1,0 +1,16 @@
+.detail-header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  button {
+    margin-right: 20px;
+  }
+
+  .info-area {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    color: var(--placeholder);
+  }
+}

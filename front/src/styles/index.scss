@@ -71,3 +71,11 @@ img {
   flex-direction: row;
   justify-content: space-between;
 }
+
+.apexcharts-menu {
+  background-color: var(--lightBg) !important;
+
+  .apexcharts-menu-item:hover {
+    color: initial;
+  }
+}

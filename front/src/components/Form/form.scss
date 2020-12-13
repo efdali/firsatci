@@ -1,11 +1,9 @@
 .form-container {
   position: relative;
-  &.f-left {
-    float: left;
-  }
+  float: left;
 
   .new-product-form {
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     right: 0;
@@ -18,7 +16,7 @@
     border-radius: 4px;
 
     &.active {
-      transform: translateY(0%);
+      transform: translateY(120px);
     }
 
     .close-form {
@@ -66,6 +64,10 @@
       &::placeholder {
         color: var(--placeholder);
       }
+    }
+
+    button:disabled {
+      pointer-events: none;
     }
   }
 }
