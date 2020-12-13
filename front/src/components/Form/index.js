@@ -18,7 +18,7 @@ function Form({ setData }) {
         return;
       }
       setLoading(true);
-      fetch('http://localhost:5000/new', {
+      fetch('https://firsatci-api.herokuapp.com/new', {
         method: 'POST',
         body: JSON.stringify({ url, name, selector }),
         headers: { 'Content-Type': 'application/json' },

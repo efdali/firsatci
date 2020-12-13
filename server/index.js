@@ -5,13 +5,13 @@ const errorHandler = require('./middlewares/errorHandler');
 const cron = require('node-cron');
 const cheerio = require('cheerio');
 const axios = require('axios');
-const Product = require('../models/Product');
-const Price = require('../models/Price');
+const Product = require('./models/Product');
+const Price = require('./models/Price');
 require('./helpers/connectDatabase')();
 
 const app = express();
 
-cron.schedule('30 */1 * * * *', async () => {
+cron.schedule('30 */1 * * * ', async () => {
   console.log('çalıştı', new Date());
   Product.find({}).then((products) => {
     if (products.length > 0) {
@@ -19,7 +19,7 @@ cron.schedule('30 */1 * * * *', async () => {
         axios.get(product.url).then((response) => {
           const $ = cheerio.load(response.data);
           const price = $(product.selector).text().trim();
-          Price.create({ product: product._id, price }).then((a) => console.log(a));
+          Price.create({ product: product._id, price });
           // task.destroy();
         });
       });
@@ -29,11 +29,13 @@ cron.schedule('30 */1 * * * *', async () => {
 
 app.use(cors());
 
+app.use(express.static('public'))
+
 app.use(express.json());
 app.use('/', routers);
 
 app.use(errorHandler);
 
-app.listen(5000, () => {
+app.listen(process.env.PORT || 5000, () => {
   console.log('Server is listening on 5000');
 });

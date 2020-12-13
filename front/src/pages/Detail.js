@@ -10,7 +10,7 @@ function Detail() {
   const [prices, setPrices] = useState([]);
 
   useEffect(() => {
-    fetch('http://localhost:5000/' + id)
+    fetch('https://firsatci-api.herokuapp.com/' + id)
       .then((res) => res.json())
       .then((res) => {
         setProduct(res.product);

@@ -19,6 +19,7 @@
     "node-cron": "^2.0.3"
   },
   "devDependencies": {
-    "nodemon": "^2.0.6"
+    "nodemon": "^2.0.6",
+    "zombie": "^6.1.4"
   }
 }

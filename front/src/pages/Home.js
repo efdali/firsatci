@@ -7,7 +7,7 @@ function Home() {
   const [data, setData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
   useEffect(() => {
-    fetch('http://localhost:5000/')
+    fetch('https://firsatci-api.herokuapp.com/')
       .then((res) => res.json())
       .then((response) => {
         setData(response.data);
