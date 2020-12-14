@@ -57,6 +57,7 @@ const newProduct = asyncWrapper(async (req, res, next) => {
   const info = req.body;
 
   if (info.url.includes('n11.com')) {
+    console.log('if n11');
     const productId = await n11ProductId(req, res, next);
     info.url = `https://www.n11.com/component/render/newProductPriceArea?productId=${productId}`;
     const productPrice = await n11ProductPrice(req, res, next);
@@ -80,22 +81,24 @@ const newProduct = asyncWrapper(async (req, res, next) => {
       },
     });
   }
-
+  console.log('n11 if altı');
   const newData = await Product.create({
     name: info.name,
     url: info.url,
     selector: info.selector,
   });
 
-  const html = axios.get(newData.url);
+  const html = await axios.get(newData.url);
   const $ = cheerio.load(html.data);
   const priceText = $(newData.selector).text().trim();
-
+  console.log(newData);
+  console.log(priceText);
   const price = await Price.create({
     product: newData._id,
     price: priceText,
   });
 
+  console.log(price);
   res.status(200).json({
     success: true,
     data: {

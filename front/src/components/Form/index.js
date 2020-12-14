@@ -18,7 +18,7 @@ function Form({ setData }) {
         return;
       }
       setLoading(true);
-      fetch('https://firsatci-api.herokuapp.com/new', {
+      fetch(process.env.REACT_APP_API_URL + '/new', {
         method: 'POST',
         body: JSON.stringify({ url, name, selector }),
         headers: { 'Content-Type': 'application/json' },
@@ -26,16 +26,18 @@ function Form({ setData }) {
         .then((res) => res.json())
         .then((response) => {
           if (response.success) {
-            setData({ ...response.data.newData, prices: [{ price: '0' }] });
+            setData({ ...response.data.newData, prices: [response.data.price] });
             setUrl('');
             setName('');
             setSelector('');
             setIsShown(false);
+          } else {
+            alert(response.message);
           }
         })
         .finally(() => setLoading(false));
     },
-    [url, name, selector],
+    [url, name, selector, setData],
   );
 
   useEffect(() => {

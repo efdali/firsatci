@@ -3,8 +3,16 @@
   flex-direction: row;
   align-items: center;
 
-  button {
+  button,
+  a {
     margin-right: 20px;
+  }
+
+  .product-btn {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 250px;
   }
 
   .info-area {

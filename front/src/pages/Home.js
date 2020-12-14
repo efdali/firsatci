@@ -1,17 +1,20 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import Form from '../components/Form';
+import Loading from '../components/Loading';
 import Search from '../components/Search';
 import Table from '../components/Table';
 
 function Home() {
+  const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
   useEffect(() => {
-    fetch('https://firsatci-api.herokuapp.com/')
+    fetch(process.env.REACT_APP_API_URL)
       .then((res) => res.json())
       .then((response) => {
         setData(response.data);
-      });
+      })
+      .finally(() => setLoading(false));
   }, []);
 
   useEffect(() => {
@@ -30,9 +33,17 @@ function Home() {
   );
   return (
     <div>
-      <Form setData={(newData) => setData([newData, ...data])} />
-      <Search onSearchChange={filterData} />
-      <Table data={filteredData} />
+      {loading ? (
+        <div className="loading-wrapper">
+          <Loading />
+        </div>
+      ) : (
+        <>
+          <Form setData={(newData) => setData([newData, ...data])} />
+          <Search onSearchChange={filterData} />
+          <Table data={filteredData} />
+        </>
+      )}
     </div>
   );
 }
