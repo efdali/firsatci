@@ -7,9 +7,12 @@ const cheerio = require('cheerio');
 const axios = require('axios');
 const Product = require('./models/Product');
 const Price = require('./models/Price');
+const TelegramBot = require('node-telegram-bot-api');
 require('./helpers/connectDatabase')();
 
 const app = express();
+const bot = new TelegramBot('1478214900:AAFcwpOy9lISoqfhlHhd32ylHZEkWRgmiiE', { polling: true });
+let message = ``;
 
 cron.schedule('0 */6 * * * ', async () => {
   console.log('çalıştı', new Date());
@@ -19,7 +22,10 @@ cron.schedule('0 */6 * * * ', async () => {
         axios.get(product.url).then((response) => {
           const $ = cheerio.load(response.data);
           const price = $(product.selector).text().trim();
-          Price.create({ product: product._id, price });
+          Price.create({ product: product._id, price }).then((p) => {
+            message = `${product.name} - ${price}\n ${product.url}`;
+            bot.sendMessage('-466890469', message);
+          });
           // task.destroy();
         });
       });
