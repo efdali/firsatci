@@ -2,15 +2,12 @@ const mongoose = require('mongoose');
 
 const connectDatabase = () => {
   mongoose
-    .connect(
-      'mongodb+srv://amdin:cokguclubirpassword@cluster0.qzuqn.mongodb.net/firsatci?retryWrites=true&w=majority',
-      {
-        useNewUrlParser: true,
-        useFindAndModify: false,
-        useCreateIndex: true,
-        useUnifiedTopology: true,
-      },
-    )
+    .connect(process.env.DB_CONNECTION, {
+      useNewUrlParser: true,
+      useFindAndModify: false,
+      useCreateIndex: true,
+      useUnifiedTopology: true,
+    })
     .then(() => {
       console.log('MongoDb Connection Successful');
     })
