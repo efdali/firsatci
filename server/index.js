@@ -11,7 +11,7 @@ require('./helpers/connectDatabase')();
 
 const app = express();
 
-cron.schedule('30 */1 * * * ', async () => {
+cron.schedule('0 */6 * * * ', async () => {
   console.log('çalıştı', new Date());
   Product.find({}).then((products) => {
     if (products.length > 0) {
@@ -29,7 +29,7 @@ cron.schedule('30 */1 * * * ', async () => {
 
 app.use(cors());
 
-app.use(express.static('public'))
+app.use(express.static('public'));
 
 app.use(express.json());
 app.use('/', routers);
