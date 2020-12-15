@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const routers = require('./routers');
@@ -11,7 +12,7 @@ const TelegramBot = require('node-telegram-bot-api');
 require('./helpers/connectDatabase')();
 
 const app = express();
-const bot = new TelegramBot('1478214900:AAFcwpOy9lISoqfhlHhd32ylHZEkWRgmiiE', { polling: true });
+const bot = new TelegramBot(process.env.TELEGRAM_TOKEN, { polling: true });
 let message = ``;
 
 cron.schedule('0 */6 * * * ', async () => {
